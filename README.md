@@ -4,7 +4,7 @@
 
 **Standalone repo:** [github.com/InquiryInstitute/martools](https://github.com/InquiryInstitute/martools) — this tree also lives under [`InquiryInstitute/martech`](https://github.com/InquiryInstitute/martech) as `martools/` for monorepo workflows.
 
-**Documentation site (GitHub Pages):** [inquiryinstitute.github.io/martools](https://inquiryinstitute.github.io/martools/) — stack overview and how it works. After the first push that includes `.github/workflows/pages.yml`, open **Settings → Pages** on the repo and set **Build: GitHub Actions** if GitHub prompts you.
+**Documentation site (GitHub Pages):** [inquiryinstitute.github.io/martools](https://inquiryinstitute.github.io/martools/) — stack overview and how it works. **Forks:** enable **Settings → Pages → Build: GitHub Actions** once, then re-run the “Deploy GitHub Pages” workflow (or push to `main`).
 
 This is **not** a full Mautic/Chatwoot/PostHog bundle (those are multi-service). It gives you **working Postgres + Redis** plus **optional Compose profiles** for analytics (Umami), local LLM (Ollama + LiteLLM), and automation (n8n). Extend with your own compose files.
 
