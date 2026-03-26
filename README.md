@@ -1,6 +1,8 @@
 # Martools
 
-**Turnkey OSS baseline** for marketing-ops and AI-gateway experiments—intended to **fork** per project or cohort (e.g. Mag.AI labs). Pairs with the written stack review in the parent repo: [`tools/ai-marketing-tools-magai-review.md`](../tools/ai-marketing-tools-magai-review.md).
+**Turnkey OSS baseline** for marketing-ops and AI-gateway experiments—intended to **fork** per project or cohort (e.g. Mag.AI labs). Pairs with the written stack review in the Castalia martech repo: [Mag.AI tools review](https://github.com/InquiryInstitute/martech/blob/main/tools/ai-marketing-tools-magai-review.md).
+
+**Standalone repo:** [github.com/InquiryInstitute/martools](https://github.com/InquiryInstitute/martools) — this tree also lives under [`InquiryInstitute/martech`](https://github.com/InquiryInstitute/martech) as `martools/` for monorepo workflows.
 
 This is **not** a full Mautic/Chatwoot/PostHog bundle (those are multi-service). It gives you **working Postgres + Redis** plus **optional Compose profiles** for analytics (Umami), local LLM (Ollama + LiteLLM), and automation (n8n). Extend with your own compose files.
 
@@ -64,17 +66,17 @@ martools/
 └── .env.example
 ```
 
-## Publish as its own repo
+## Sync from the monorepo
 
-From the **parent monorepo** root (`martech/`), after `martools/` is committed:
+Canonical development may happen in **`martech`** alongside [`tools/`](https://github.com/InquiryInstitute/martech/tree/main/tools). To refresh **this** repo from `martools/`:
 
 ```bash
+# from martech/ repository root, after committing martools/
 git subtree split -P martools -b martools-only
-git remote add martools-origin https://github.com/YOUR_ORG/martools.git
-git push martools-origin martools-only:main
+git push https://github.com/InquiryInstitute/martools.git martools-only:main --force-with-lease
 ```
 
-Or create an empty `martools` repo on GitHub and push only this directory’s contents (new clone + copy). Replace `YOUR_ORG` with e.g. `InquiryInstitute`.
+Use `--force-with-lease` only when you intend to replace `main` on the standalone repo (coordinate with collaborators).
 
 ## License
 

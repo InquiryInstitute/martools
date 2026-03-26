@@ -11,7 +11,7 @@
 
 ## Not bundled (add yourself or another compose file)
 
-These are common in the [Mag.AI martech review](../../tools/ai-marketing-tools-magai-review.md) OSS table but are heavier or need extra setup:
+These are common in the [Mag.AI martech review](https://github.com/InquiryInstitute/martech/blob/main/tools/ai-marketing-tools-magai-review.md) OSS table but are heavier or need extra setup:
 
 - **Mautic / EspoCRM** — marketing CRM; use official images + separate compose.
 - **Chatwoot** — multi-container; follow [Chatwoot self-hosted](https://www.chatwoot.com/docs/self-hosted).
