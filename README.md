@@ -4,6 +4,8 @@
 
 **Standalone repo:** [github.com/InquiryInstitute/martools](https://github.com/InquiryInstitute/martools) — this tree also lives under [`InquiryInstitute/martech`](https://github.com/InquiryInstitute/martech) as `martools/` for monorepo workflows.
 
+**Documentation site (GitHub Pages):** [inquiryinstitute.github.io/martools](https://inquiryinstitute.github.io/martools/) — stack overview and how it works. After the first push that includes `.github/workflows/pages.yml`, open **Settings → Pages** on the repo and set **Build: GitHub Actions** if GitHub prompts you.
+
 This is **not** a full Mautic/Chatwoot/PostHog bundle (those are multi-service). It gives you **working Postgres + Redis** plus **optional Compose profiles** for analytics (Umami), local LLM (Ollama + LiteLLM), and automation (n8n). Extend with your own compose files.
 
 ## Quick start
@@ -54,6 +56,10 @@ This is **not** a full Mautic/Chatwoot/PostHog bundle (those are multi-service).
 | `make down` | Stops all profile combinations used here |
 | `make pull-model` | `ollama pull llama3.2` (LLM profile must be running) |
 
+## MCP (LLM tools)
+
+To let **Cursor**, **Claude Desktop**, or other MCP clients talk to Postgres, Redis, Umami, Ollama, and n8n on localhost, copy and edit the example config in [`mcp/`](./mcp/README.md). **LiteLLM** is covered by using the Ollama MCP against `:11434` or by calling the proxy’s OpenAI-compatible HTTP API; see `mcp/README.md` for details.
+
 ## Layout
 
 ```
@@ -61,6 +67,7 @@ martools/
 ├── docker-compose.yml    # services + profiles
 ├── config/litellm.yaml   # LiteLLM → Ollama
 ├── docker/postgres/init/ # creates umami + n8n databases
+├── mcp/                  # MCP server examples (Cursor / Claude)
 ├── docs/STACK.md         # port matrix + what to add next
 ├── SECURITY.md
 └── .env.example

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Martools — local martech &amp; AI gateway baseline</title>
+  <meta name="description" content="Docker Compose stack: Postgres, Redis, optional Umami, Ollama, LiteLLM, and n8n. Fork per project or lab." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0d1117;
+      --surface: #161b22;
+      --border: #30363d;
+      --text: #e6edf3;
+      --muted: #8b949e;
+      --accent: #58a6ff;
+      --accent-dim: #388bfd66;
+      --ok: #3fb950;
+      --warn: #d29922;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "DM Sans", system-ui, sans-serif;
+      font-size: 1.05rem;
+      line-height: 1.6;
+      color: var(--text);
+      background: var(--bg);
+      background-image: radial-gradient(ellipse 80% 50% at 50% -20%, var(--accent-dim), transparent);
+    }
+    a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+    a:hover { text-decoration: none; }
+    code, .mono { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 0.92em; }
+    .wrap { max-width: 52rem; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+    header { margin-bottom: 2.5rem; }
+    header h1 { font-size: clamp(1.75rem, 4vw, 2.25rem); font-weight: 700; letter-spacing: -0.02em; margin: 0 0 0.5rem; }
+    header p.lead { color: var(--muted); margin: 0; font-size: 1.1rem; }
+    .badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--ok);
+      border: 1px solid #238636;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+    }
+    h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin: 2.25rem 0 0.75rem;
+      padding-top: 0.5rem;
+      border-top: 1px solid var(--border);
+    }
+    h2:first-of-type { border-top: none; padding-top: 0; margin-top: 0; }
+    h3 { font-size: 1rem; font-weight: 600; margin: 1.25rem 0 0.5rem; color: var(--muted); }
+    p { margin: 0 0 1rem; }
+    ul { margin: 0 0 1rem; padding-left: 1.25rem; }
+    li { margin-bottom: 0.35rem; }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+      margin: 1rem 0;
+    }
+    .diagram {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.78rem;
+      line-height: 1.5;
+      white-space: pre;
+      overflow-x: auto;
+      color: var(--muted);
+      margin: 0;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 0.95rem; margin: 1rem 0; }
+    th, td { text-align: left; padding: 0.6rem 0.75rem; border-bottom: 1px solid var(--border); }
+    th { color: var(--muted); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em; }
+    tr:last-child td { border-bottom: none; }
+    .note { color: var(--warn); font-size: 0.95rem; }
+    footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.9rem; }
+    .cta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+    }
+    .btn.primary { background: var(--accent); color: #0d1117; border-color: var(--accent); }
+    .btn:hover { opacity: 0.92; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <span class="badge">OSS baseline</span>
+      <h1>Martools</h1>
+      <p class="lead">
+        A small, forkable <strong>Docker Compose</strong> stack for marketing-ops experiments and local AI gateways:
+        <strong>Postgres</strong> and <strong>Redis</strong> always on; optional <strong>Umami</strong>, <strong>Ollama</strong>,
+        <strong>LiteLLM</strong>, and <strong>n8n</strong> behind Compose profiles.
+      </p>
+      <div class="cta">
+        <a class="btn primary" href="https://github.com/InquiryInstitute/martools">Repository on GitHub</a>
+        <a class="btn" href="https://github.com/InquiryInstitute/martech/blob/main/tools/ai-marketing-tools-magai-review.md">Mag.AI tools review</a>
+      </div>
+    </header>
+
+    <h2>What it is (and is not)</h2>
+    <p>
+      Martools is <strong>not</strong> a full self-hosted CRM or product-analytics platform. It is a <strong>working baseline</strong>:
+      real databases and cache, plus optional services you can turn on when you need them. You extend it with your own
+      <code class="mono">docker-compose.*.yml</code> files or fork per cohort or project.
+    </p>
+
+    <h2>How it works</h2>
+    <p>
+      <strong>Docker Compose</strong> defines one network of containers. <strong>Profiles</strong> decide which optional services start:
+      nothing extra runs until you ask for <code class="mono">analytics</code>, <code class="mono">llm</code>,
+      <code class="mono">automation</code>, or the combined <code class="mono">full</code> profile.
+    </p>
+    <div class="card">
+      <p class="diagram">docker compose up -d
+  └── postgres (55432)   redis (56379)
+
+docker compose --profile analytics up -d
+  └── + umami (3030)  →  Postgres DB &quot;umami&quot;
+
+docker compose --profile llm up -d
+  └── + ollama (11434)  →  + litellm (4000)  →  ollama
+
+docker compose --profile automation up -d
+  └── + n8n (5678)  →  Postgres DB &quot;n8n&quot;</p>
+    </div>
+    <p>
+      On first boot, Postgres runs init scripts that create the <code class="mono">umami</code> and <code class="mono">n8n</code>
+      databases. The main app database is <code class="mono">martools</code>. Redis is ready for queues or cache for services you add later.
+    </p>
+
+    <h2>Services and ports</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Service</th>
+          <th>Profile</th>
+          <th>Host port</th>
+          <th>Role</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Postgres</td>
+          <td>(default)</td>
+          <td class="mono">55432</td>
+          <td>Shared DB for stack and optional apps</td>
+        </tr>
+        <tr>
+          <td>Redis</td>
+          <td>(default)</td>
+          <td class="mono">56379</td>
+          <td>Cache / queues for future services</td>
+        </tr>
+        <tr>
+          <td>Umami</td>
+          <td>analytics, full</td>
+          <td class="mono">3030</td>
+          <td>Privacy-friendly web analytics</td>
+        </tr>
+        <tr>
+          <td>Ollama</td>
+          <td>llm, full</td>
+          <td class="mono">11434</td>
+          <td>Local LLM runtime</td>
+        </tr>
+        <tr>
+          <td>LiteLLM</td>
+          <td>llm, full</td>
+          <td class="mono">4000</td>
+          <td>OpenAI-compatible proxy to Ollama</td>
+        </tr>
+        <tr>
+          <td>n8n</td>
+          <td>automation, full</td>
+          <td class="mono">5678</td>
+          <td>Workflow automation</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="note">
+      Defaults assume <strong>localhost</strong> development. Do not expose these ports to untrusted networks without TLS,
+      firewalls, and proper authentication (see SECURITY in the repo).
+    </p>
+
+    <h2>LLM path</h2>
+    <p>
+      With the <code class="mono">llm</code> profile, clients can talk to <strong>LiteLLM</strong> at
+      <code class="mono">http://localhost:4000</code> using the <a href="https://docs.litellm.ai/docs/proxy/quick_start">LiteLLM proxy API</a>.
+      Models are configured in <code class="mono">config/litellm.yaml</code> (default: <code class="mono">llama3.2</code> via Ollama).
+      Pull weights after start: <code class="mono">docker compose exec ollama ollama pull llama3.2</code>.
+    </p>
+    <p>
+      For <strong>Cursor / Claude</strong> and MCP, see the <a href="https://github.com/InquiryInstitute/martools/tree/main/mcp">mcp/</a>
+      examples in the repository.
+    </p>
+
+    <h2>Quick start</h2>
+    <ol>
+      <li><code class="mono">cp .env.example .env</code> and set <code class="mono">POSTGRES_PASSWORD</code>; add <code class="mono">UMAMI_APP_SECRET</code> if you use analytics.</li>
+      <li><code class="mono">docker compose up -d</code> for Postgres + Redis.</li>
+      <li>Enable profiles as needed (see README). First Umami visit: create admin at <code class="mono">http://localhost:3030</code>.</li>
+    </ol>
+    <p>
+      <a href="https://github.com/InquiryInstitute/martools#readme">Full README</a> ·
+      <a href="https://github.com/InquiryInstitute/martools/blob/main/docs/STACK.md">Stack notes (what to add next)</a>
+    </p>
+
+    <h2>License</h2>
+    <p>
+      MIT — <a href="https://github.com/InquiryInstitute/martools/blob/main/LICENSE">LICENSE</a>. Third-party container images
+      remain under their own licenses.
+    </p>
+
+    <footer>
+      <p>
+        Martools · <a href="https://github.com/InquiryInstitute/martools">InquiryInstitute/martools</a>
+        · Published with <a href="https://pages.github.com/">GitHub Pages</a>
+      </p>
+    </footer>
+  </div>
+</body>
+</html>

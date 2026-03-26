@@ -1,0 +1,48 @@
+{
+  "mcpServers": {
+    "martools-postgres": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-postgres",
+        "postgresql://martools:REPLACE_POSTGRES_PASSWORD@127.0.0.1:55432/martools"
+      ]
+    },
+    "martools-redis": {
+      "command": "uvx",
+      "args": [
+        "--from",
+        "redis-mcp-server@latest",
+        "redis-mcp-server",
+        "--url",
+        "redis://127.0.0.1:56379/0"
+      ]
+    },
+    "martools-umami": {
+      "command": "npx",
+      "args": ["-y", "umami-mcp"],
+      "env": {
+        "UMAMI_API_URL": "http://127.0.0.1:3030",
+        "UMAMI_TOKEN": "REPLACE_UMAMI_TOKEN"
+      }
+    },
+    "martools-ollama": {
+      "command": "npx",
+      "args": ["-y", "ollama-mcp-server"],
+      "env": {
+        "OLLAMA_HOST": "http://127.0.0.1:11434"
+      }
+    },
+    "martools-n8n": {
+      "command": "npx",
+      "args": ["-y", "n8n-mcp"],
+      "env": {
+        "MCP_MODE": "stdio",
+        "LOG_LEVEL": "error",
+        "DISABLE_CONSOLE_OUTPUT": "true",
+        "N8N_API_URL": "http://127.0.0.1:5678",
+        "N8N_API_KEY": "REPLACE_N8N_API_KEY"
+      }
+    }
+  }
+}
